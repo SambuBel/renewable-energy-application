@@ -4,8 +4,8 @@ pydantic==2.4.2 # Validación y serialización de datos
 python-dotenv==1.0.0 # Carga de variables de entorno
 sqlalchemy==2.0.23 # ORM para interactuar con la base de datos
 
-# Para ejecutar el servidor:
+# To run the server:
 # uvicorn app.main:app --reload
 
-# Para acceder a la documentación:
+# To access the documentation:
 # http://127.0.0.1:8000/docs
