@@ -1,8 +1,9 @@
 from ..models.project import Project
+import uuid
 
 SAMPLE_PROJECTS = [
     Project(
-        id=1,
+        id= uuid.uuid4(),
         name="Parque Solar Añatuya I",
         type="solar",
         latitude=-34.482627,
@@ -11,7 +12,7 @@ SAMPLE_PROJECTS = [
         description="Cuenta con una potencia instalada de 6MW."
     ),
     Project(
-        id=2,
+        id=uuid.uuid4(),
         name="Parque Eólico “La Banderita” General Acha",
         type="wind",
         latitude=-37.491203,
@@ -20,7 +21,7 @@ SAMPLE_PROJECTS = [
         description="El Parque Eólico General Acha fue adjudicado a Latinoamericana de la Energía durante la Segunda Ronda del Programa RenovAr y cuenta con una potencia instalada de 60 MW."
     ),
     Project(
-        id=3,
+        id=uuid.uuid4(),
         name="Central Hidroeléctrica Yacyretá",
         type="hydroelectric",
         latitude=-27.483148,

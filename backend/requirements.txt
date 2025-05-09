@@ -1,8 +1,9 @@
-fastapi==0.104.1 # Framework web
-uvicorn==0.24.0 # Servidor ASGI
-pydantic==2.4.2 # Validación y serialización de datos
-python-dotenv==1.0.0 # Carga de variables de entorno
-sqlalchemy==2.0.23 # ORM para interactuar con la base de datos
+fastapi==0.104.1 # Web framework
+uvicorn==0.24.0 # ASGI server
+pydantic==2.4.2 # Data validation and serialization
+python-dotenv==1.0.0 # Environment variable loading
+python-multipart==0.0.9 # Multipart/form-data parsing
+sqlalchemy==2.0.23 # ORM for database interaction
 
 # To run the server:
 # uvicorn app.main:app --reload

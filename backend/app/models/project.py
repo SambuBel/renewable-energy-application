@@ -1,10 +1,16 @@
 from pydantic import BaseModel
-from typing import Literal
+import uuid
+from enum import Enum
+
+class ProjectType(str, Enum):
+    SOLAR = "solar"
+    WIND = "wind"
+    HYDROELECTRIC = "hydroelectric"
 
 class Project(BaseModel):
-    id: int
+    id: uuid.UUID
     name: str
-    type: Literal["solar", "wind", "hydroelectric"]
+    type: ProjectType
     latitude: float
     longitude: float
     description: str
