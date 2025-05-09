@@ -1,43 +1,66 @@
 import React from 'react';
-import { Card, CardContent, Typography, Grid } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import type { Project } from '../types/project';
+import { Pill } from './Pill';
+import RoomIcon from '@mui/icons-material/Room';
 
 interface ProjectListProps {
     projects: Project[];
+    column?: boolean;
 }
 
-export const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
-    return (
-        <Grid container spacing={3} sx={{ justifyContent: 'center' }}>
-            {projects.map((project) => (
-                <Grid item xs={12} sm={6} md={4} lg={3} key={project.id} sx={{ display: 'flex' }}>
-                    <Card sx={{ flex: 1, minHeight: 220, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', borderRadius: 3, boxShadow: 3, p: 1 }}>
-                        <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'flex-start', gap: 1 }}>
-                            <Typography variant="h6" component="div" sx={{ fontWeight: 700, mb: 1, color: '#1976d2' }}>
-                                {project.name}
-                            </Typography>
-                            <Typography color="text.secondary" sx={{ fontSize: 15, mb: 1 }}>
-                                Tipo: <b>{project.type}</b>
-                            </Typography>
-                            {project.description && (
-                                <Typography variant="body2" sx={{ mb: 1, color: '#555' }}>
-                                    {project.description}
-                                </Typography>
-                            )}
-                            {project.capacity_mw && (
-                                <Typography variant="body2" sx={{ color: '#555' }}>
-                                    Capacidad: <b>{project.capacity_mw} MW</b>
-                                </Typography>
-                            )}
-                            {project.status && (
-                                <Typography variant="body2" sx={{ color: '#555' }}>
-                                    Estado: <b>{project.status}</b>
-                                </Typography>
-                            )}
-                        </CardContent>
-                    </Card>
-                </Grid>
-            ))}
-        </Grid>
-    );
-}; 
+export const ProjectList: React.FC<ProjectListProps> = ({ projects, column }) => (
+    <Box sx={{ display: 'flex', flexDirection: column ? 'column' : 'row', gap: 2 }}>
+        {projects.map((project, idx) => (
+            <Box
+                key={project.id}
+                sx={{
+                    mb: 2,
+                    p: 2,
+                    background: '#fff',
+                    borderRadius: 2,
+                    border: '1px solid #e0e0e0',
+                    boxShadow: 'none',
+                    fontSize: 15,
+                    ...(idx !== projects.length - 1 && { mb: 3 }),
+                }}
+            >
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                    <Typography
+                        sx={{
+                            fontWeight: 600,
+                            fontSize: 17,
+                            color: '#1976d2',
+                            flex: 1,
+                            lineHeight: 1.2,
+                        }}
+                    >
+                        {project.name}
+                    </Typography>
+                    <Pill color={project.type}>{project.type}</Pill>
+                </Box>
+                {project.description && (
+                    <Typography sx={{ color: '#444', fontSize: 14, mb: 1 }}>
+                        {project.description}
+                    </Typography>
+                )}
+                {project.capacity_mw && (
+                    <Typography sx={{ color: '#666', fontSize: 13 }}>
+                        <b>Capacidad:</b> {project.capacity_mw} MW
+                    </Typography>
+                )}
+                {project.status && (
+                    <Typography sx={{ color: '#888', fontSize: 13 }}>
+                        <b>Estado:</b> {project.status}
+                    </Typography>
+                )}
+                <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
+                    <RoomIcon sx={{ color: '#1976d2', fontSize: 18, mr: 0.5 }} />
+                    <Typography sx={{ fontSize: 13, color: '#555' }}>
+                        {project.latitude}, {project.longitude}
+                    </Typography>
+                </Box>
+            </Box>
+        ))}
+    </Box>
+);

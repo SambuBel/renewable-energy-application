@@ -5,6 +5,7 @@ import { projectsSaga } from './projectsSaga';
 
 const sagaMiddleware = createSagaMiddleware();
 
+export type RootState = ReturnType<typeof store.getState>;
 export const store = configureStore({
     reducer: {
         projects: projectsReducer,
