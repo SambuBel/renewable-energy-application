@@ -6,6 +6,7 @@ import { ProjectContent } from './components/ProjectContent';
 import type { RootState } from './store';
 import { ProjectDrawer } from './components/ProjectDrawer';
 import { Box } from '@mui/material';
+import type { Project } from './types/project';
 
 function App() {
     const dispatch = useDispatch();
@@ -13,6 +14,7 @@ function App() {
         (state: RootState) => state.projects
     );
     const [drawerOpen, setDrawerOpen] = useState(false);
+    const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
     useEffect(() => {
         dispatch({ type: 'projects/fetchProjects', payload: selectedType });
@@ -28,7 +30,13 @@ function App() {
     };
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', width: '100vw', position: 'relative' }}>
+        <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100vh',
+            width: '100%',
+            position: 'relative'
+        }}>
             <EnergyAppBar
                 selectedType={selectedType}
                 onTypeChange={handleTypeChange}
@@ -40,6 +48,7 @@ function App() {
                 error={error}
                 view={drawerOpen ? 'list' : 'map'}
                 projects={projects}
+                selectedProject={selectedProject}
             />
             {drawerOpen && (
                 <Box
@@ -57,7 +66,9 @@ function App() {
                     }}
                 />
             )}
-            <ProjectDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} projects={projects} />
+            {drawerOpen && (
+                <ProjectDrawer onClose={() => setDrawerOpen(false)} projects={projects} setSelectedProject={setSelectedProject} />
+            )}
         </div>
     );
 }

@@ -6,6 +6,7 @@ import { markerIcons } from '../utils/markets';
 
 interface ProjectMapProps {
     projects: Project[];
+    selectedProject?: Project;
 }
 
 function ResizeMap({ projects }: { projects: Project[] }) {
@@ -18,11 +19,22 @@ function ResizeMap({ projects }: { projects: Project[] }) {
     return null;
 }
 
-export const ProjectMap: React.FC<ProjectMapProps> = ({ projects }) => {
+function MapCenterer({ project }: { project: Project }) {
+    const map = useMap();
+    useEffect(() => {
+        if (project) {
+            map.setView([project.latitude, project.longitude], 10, { animate: true });
+        }
+    }, [project, map]);
+    return null;
+}
+
+export const ProjectMap: React.FC<ProjectMapProps> = ({ projects, selectedProject }) => {
     const center: [number, number] = [-34.6037, -58.3816]; // Buenos Aires, Argentina
     return (
         <MapContainer center={center} zoom={6}  style={{ height: '100%', width: '100%' }}>
             <ResizeMap projects={projects} />
+            {selectedProject && <MapCenterer project={selectedProject} />}
             <TileLayer
                 attribution='&copy; OpenStreetMap contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -57,9 +69,9 @@ export const ProjectMap: React.FC<ProjectMapProps> = ({ projects }) => {
                                 gap: 8,
                             }}>
                                 {project.type === 'solar' && <span style={{ color: '#fbc02d', fontSize: 20 }}>☀️</span>}
-                                {project.type === 'wind' && <span style={{ color: '#4fc3f7', fontSize: 20 }}>💨</span>}
-                                {project.type === 'hydroelectric' && <span style={{ color: '#1976d2', fontSize: 20 }}>💧</span>}
-                                {project.name}
+                                {project.type === 'wind' && <span style={{ color: '#388e3c', fontSize: 20 }}>💨</span>}
+                                {project.type === 'hydroelectric' && <span style={{ color: '#1565c0', fontSize: 20 }}>💧</span>}
+                                <span>{project.name}</span>
                             </h3>
                             <div style={{ fontSize: 15, color: '#333', marginBottom: 4 }}>
                                 <b>Tipo:</b> <span style={{ textTransform: 'capitalize' }}>{project.type}</span>
@@ -79,6 +91,12 @@ export const ProjectMap: React.FC<ProjectMapProps> = ({ projects }) => {
                                     {project.description}
                                 </div>
                             )}
+                            <div style={{ display: 'flex', alignItems: 'center', marginTop: 8 }}>
+                                <span style={{ color: '#1976d2', fontSize: 18, marginRight: 4 }}>📍</span>
+                                <span style={{ fontSize: 13, color: '#555' }}>
+                                    {project.latitude}, {project.longitude}
+                                </span>
+                            </div>
                         </div>
                     </Popup>
                 </Marker>

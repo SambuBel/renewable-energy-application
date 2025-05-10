@@ -8,12 +8,14 @@ interface ProjectContentProps {
   error: string | null;
   view: 'map' | 'list';
   projects: Project[];
+  selectedProject: Project | null;
 }
 
 export const ProjectContent: React.FC<ProjectContentProps> = ({
   loading,
   error,
   projects,
+  selectedProject,
 }) => (
   <Box
     sx={{
@@ -45,7 +47,7 @@ export const ProjectContent: React.FC<ProjectContentProps> = ({
         background: '#222',
     }}
     >
-    <ProjectMap projects={projects} />
+    <ProjectMap projects={projects} selectedProject={selectedProject ?? undefined} />
     </Box>
   </Box>
 );

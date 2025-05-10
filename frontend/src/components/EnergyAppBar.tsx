@@ -1,10 +1,8 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Tabs, Tab, Box, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { Map as MapIcon, List as ListIcon } from '@mui/icons-material';
-import WbSunnyIcon from '@mui/icons-material/WbSunny';
-import WindPowerIcon from '@mui/icons-material/WindPower';
-import OpacityIcon from '@mui/icons-material/Opacity';
-import PublicIcon from '@mui/icons-material/Public';
+import ElectricBoltIcon from '@mui/icons-material/ElectricBolt';
+import { energyTypes } from '../utils/energyType';
 
 interface EnergyAppBarProps {
   selectedType: string | null;
@@ -12,6 +10,27 @@ interface EnergyAppBarProps {
   view: 'map' | 'list';
   onViewChange: (event: React.MouseEvent<HTMLElement>, nextView: 'map' | 'list' | null) => void;
 }
+
+const tabSx = {
+  fontWeight: 500,
+  fontSize: 14,
+  minHeight: 32,
+  px: 1.5,
+  py: 0.5,
+  borderRadius: 2,
+  color: '#e3e3e3',
+  transition: 'background 0.2s, color 0.2s',
+  '&:focus': { outline: 'none' },
+  '&.Mui-selected': {
+    color: '#1976d2',
+    background: '#fff',
+    boxShadow: '0 2px 8px 0 rgba(0,0,0,0.08)',
+  },
+  '&:hover': {
+    background: 'rgba(255,255,255,0.15)',
+    color: '#fff',
+  }
+};
 
 export const EnergyAppBar: React.FC<EnergyAppBarProps> = ({
   selectedType,
@@ -49,8 +68,18 @@ export const EnergyAppBar: React.FC<EnergyAppBarProps> = ({
           mr: 2,
           fontSize: { xs: 18, sm: 20, md: 22 },
           flexShrink: 0,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 1,
         }}
       >
+        <ElectricBoltIcon 
+          sx={{ 
+            fontSize: 28,
+            color: '#fff',
+            filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))',
+          }} 
+        />
         Proyectos de energías renovables
       </Typography>
       <Box sx={{ display: 'flex', alignItems: 'center', flex: 1, justifyContent: 'flex-end', minWidth: 0 }}>
@@ -71,33 +100,20 @@ export const EnergyAppBar: React.FC<EnergyAppBarProps> = ({
           sx={{
             minHeight: 40,
             '.MuiTabs-flexContainer': { justifyContent: 'center' },
-            '.MuiTab-root': {
-              fontWeight: 500,
-              fontSize: 14,
-              minHeight: 32,
-              px: 1.5,
-              py: 0.5,
-              borderRadius: 2,
-              color: '#e3e3e3',
-              transition: 'background 0.2s, color 0.2s',
-              '&:focus': { outline: 'none' },
-              '&.Mui-selected': {
-                color: '#1976d2',
-                background: '#fff',
-                boxShadow: '0 2px 8px 0 rgba(0,0,0,0.08)',
-              },
-              '&:hover': {
-                background: 'rgba(255,255,255,0.15)',
-                color: '#fff',
-              }
-            },
+            '.MuiTab-root': tabSx,
             '.MuiTab-root.Mui-focusVisible': { outline: 'none' }
           }}
         >
-          <Tab icon={<PublicIcon sx={{ mr: 0.5, fontSize: 18 }} />} iconPosition="start" label="Todos" value={null} disableRipple />
-          <Tab icon={<WbSunnyIcon sx={{ color: '#fbc02d', mr: 0.5, fontSize: 18 }} />} iconPosition="start" label="Solar" value="solar" disableRipple />
-          <Tab icon={<WindPowerIcon sx={{ color: '#4fc3f7', mr: 0.5, fontSize: 18 }} />} iconPosition="start" label="Eólica" value="wind" disableRipple />
-          <Tab icon={<OpacityIcon sx={{ color: '#1976d2', mr: 0.5, fontSize: 18 }} />} iconPosition="start" label="Hidroeléctrica" value="hydroelectric" disableRipple />
+          {energyTypes.map(type => (
+            <Tab
+              key={type.value ?? 'all'}
+              icon={type.icon}
+              iconPosition="start"
+              label={type.label}
+              value={type.value}
+              disableRipple
+            />
+          ))}
         </Tabs>
         <ToggleButtonGroup
           value={view}
